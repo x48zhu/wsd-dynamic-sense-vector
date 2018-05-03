@@ -82,6 +82,7 @@ echo "python3 /var/scratch/mcpostma/wsd-dynamic-sense-vector/test-lstm_v2.py -m 
 python3 test-lstm_v2.py -m $model_path -v $vocab_path -i $sense_annotations_path -o $embeddings_path -b $batch_size -t 1000000 -s $emb_setting
 echo 'finished training meaning embeddings at:' >> $log_file
 date >> $log_file
+echo 'finished training meaning embeddings, stored at $embeddings_path'
 
 # evaluate embeddings
 echo 'started evaluation' >> $log_file

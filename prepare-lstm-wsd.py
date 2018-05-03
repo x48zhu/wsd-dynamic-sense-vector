@@ -11,6 +11,7 @@ number of tokens but differing number of sentences depends on sentence length)
 
 @author: Minh Le
 '''
+import argparse
 import codecs
 import sys
 import collections
@@ -25,19 +26,23 @@ from random import Random
 from collections import Counter
 from utils import progress, count_lines_fast
 from configs import preprocessed_gigaword_path, output_dir
-from version import version
+#from version import version
+
 
 dev_sents = 20000 # absolute maximum
 dev_portion = 0.01 # relative maximum
 # if you get OOM (out of memory) error, reduce this number
 batch_size = 60000 # words
-vocab_size = 10**6
+vocab_size = 10**5
 min_count = 5
 
-inp_path = preprocessed_gigaword_path
-# inp_path = 'preprocessed-data/gigaword_1m-sents.txt' # for debugging    
-out_dir = os.path.join('preprocessed-data', version)
-out_path = os.path.join(out_dir, 'gigaword-for-lstm-wsd')
+parser = argparse.ArgumentParser(description='Preprocess data')
+parser.add_argument('-i', dest='inp_path', required=True, help='path to raw data file')
+parser.add_argument('-o', dest='out_path', required=True, help='path to output preprocessed data')
+args = parser.parse_args()
+
+inp_path = args.inp_path
+out_path = args.out_path
 
 special_symbols = ['<target>', '<unkn>', '<pad>']
 
@@ -197,7 +202,6 @@ def shuffle_and_pad_batches(inp_path, word2id, dev_sent_ids):
     return batches
 
 def run():
-    os.makedirs(out_dir, exist_ok=True)
     index_path = out_path + '.index.pkl'
     if os.path.exists(index_path):
         sys.stderr.write('Reading vocabulary from %s... ' %index_path)
@@ -234,17 +238,6 @@ def run():
         print("- Shuffled training set:")
         batches = shuffle_and_pad_batches(sorted_sents_path, word2id, dev_sent_ids)
         np.savez(shuffled_train_path, **batches)
-            
-    for percent in (1, 10, 25, 50, 75):
-        num_lines = int(percent / 100.0 * total_sents)
-        sampled_ids = set(np.random.choice(total_sents, size=num_lines, replace=False))
-        pc_train_path = out_path + ('_%02d-pc.train.npz' %percent)
-        if os.path.exists(pc_train_path):
-            sys.stderr.write('%02d%% dataset already exists: %s. Skipped.\n' %pc_train_path)
-        else:
-            print("- Reduced training set (%02d%%):" %percent)
-            batches = pad_batches(sorted_sents_path, word2id, sampled_ids, dev_sent_ids)
-            np.savez(pc_train_path, **batches)
 
 if __name__ == '__main__':
     run()
