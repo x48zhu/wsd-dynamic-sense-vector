@@ -4,6 +4,7 @@ import json
 import argparse
 import pickle
 import pandas
+import os
 from nltk.corpus import wordnet as wn
 from scipy import spatial
 import morpho_utils
