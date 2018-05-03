@@ -78,7 +78,7 @@ echo "use_lp" $use_lp >> $log_file
 # create embeddings
 echo 'started training meaning embeddings at:' >> $log_file
 date >> $log_file
-echo "python3 /var/scratch/mcpostma/wsd-dynamic-sense-vector/test-lstm_v2.py -m $model_path -v $vocab_path -i $sense_annotations_path -o $embeddings_path -b $batch_size -t 1000000 -s $emb_setting"
+echo "python3 /var/scratch/mcpostma/wsd-dynamic-sense-vector/test-lstm_v2.py -m $model_path -v $vocab_path -i $sense_annotations_path -o $embeddings_path -b $batch_size -t 1000000 -s $emb_setting" >> $log_file
 python3 evaluate/test-lstm_v2.py -m $model_path -v $vocab_path -i $sense_annotations_path -o $embeddings_path -b $batch_size -t 1000000 -s $emb_setting
 echo 'finished training meaning embeddings at:' >> $log_file
 date >> $log_file
