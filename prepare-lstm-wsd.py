@@ -25,7 +25,7 @@ import subprocess
 from random import Random
 from collections import Counter
 from utils import progress, count_lines_fast
-from configs import preprocessed_gigaword_path, output_dir
+from configs import output_dir
 #from version import version
 
 

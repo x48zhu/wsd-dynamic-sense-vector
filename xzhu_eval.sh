@@ -13,15 +13,15 @@ output_path=$root_dir/output/$version/$name
 result_dir=$output_path/results
 mkdir -p $result_dir
 
-# Get Google1B data
-echo "Downloading Google1B..."
-wget http://www.statmt.org/lm-benchmark/1-billion-word-language-modeling-benchmark-r13output.tar.gz
-tar xvf 1-billion-word-language-modeling-benchmark-r13output.tar.gz
-mv 1-billion-word-language-modeling-benchmark-r13output google1b
-mv googel1b $root_dir/data/
-cat $root_dir/data/google1b/training-monolingual.tokenized.shuffled/* >> $raw_data_path
-# After this step, a single file where each line is a tokenized sentence should be found at 
-#   data/google1b.txt  (raw data)
+# # Get Google1B data
+# echo "Downloading Google1B..."
+# wget http://www.statmt.org/lm-benchmark/1-billion-word-language-modeling-benchmark-r13output.tar.gz
+# tar xvf 1-billion-word-language-modeling-benchmark-r13output.tar.gz
+# mv 1-billion-word-language-modeling-benchmark-r13output google1b
+# mv googel1b $root_dir/data/
+# cat $root_dir/data/google1b/training-monolingual.tokenized.shuffled/* >> $raw_data_path
+# # After this step, a single file where each line is a tokenized sentence should be found at 
+# #   data/google1b.txt  (raw data)
 
 # Preprocess data
 # This will take a file each line is a sentence, and generate word2idx, train.npz, dev.npz etc.
